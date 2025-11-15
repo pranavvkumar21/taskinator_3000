@@ -98,9 +98,9 @@ class GlassTaskList(QWidget):
         list_layout.setSpacing(8)
         
         # Title
-        title = QLabel("Task List")
+        title = QLabel("My Tasks")
         title.setStyleSheet(Styles.TITLE_LABEL)
-        title.setAlignment(Qt.AlignLeft)
+        title.setAlignment(Qt.AlignCenter)
         list_layout.addWidget(title)
         
         # Scroll area
@@ -154,13 +154,13 @@ class GlassTaskList(QWidget):
         return container
         
         
-    def _setup_effects(self):
-        """Setup visual effects like drop shadow."""
-        shadow = QGraphicsDropShadowEffect()
-        shadow.setBlurRadius(5)
-        shadow.setColor(QColor(0, 0, 0, 160))
-        shadow.setOffset(0, 8)
-        self.setGraphicsEffect(shadow)
+    # def _setup_effects(self):
+    #     """Setup visual effects like drop shadow."""
+    #     shadow = QGraphicsDropShadowEffect()
+    #     shadow.setBlurRadius(5)
+    #     shadow.setColor(QColor(0, 0, 0, 160))
+    #     shadow.setOffset(0, 8)
+    #     self.setGraphicsEffect(shadow)
         
     def _position_window(self):
         """Position window in bottom-right corner of screen."""
@@ -292,73 +292,79 @@ class GlassTaskList(QWidget):
             self._paint_bottom_reflection(painter)
             
     def _paint_base_layer(self, painter, path):
-        """Paint the base dark layer."""
+        """Paint the base layer with green-tinted iOS-style background."""
         base_gradient = QLinearGradient(0, 0, 0, self.height())
-        base_gradient.setColorAt(0, QColor(25, 120, 65, 140))
-        base_gradient.setColorAt(0.5, QColor(34, 139, 75, 150))
-        base_gradient.setColorAt(1, QColor(20, 100, 55, 140))
+        base_gradient.setColorAt(0, QColor(50, 75, 65, 200))  # Dark green-gray
+        base_gradient.setColorAt(0.5, QColor(60, 85, 72, 210))  # Mid green-gray
+        base_gradient.setColorAt(1, QColor(48, 70, 62, 200))  # Bottom green-gray
         painter.fillPath(path, base_gradient)
-        
+
     def _paint_glass_layer(self, painter, path):
-        """Paint the glass gradient overlay."""
+        """Paint frosted glass with green tint."""
         glass_gradient = QLinearGradient(0, 0, 0, self.height())
-        glass_gradient.setColorAt(0, QColor(255, 255, 255, 60))
-        glass_gradient.setColorAt(0.3, QColor(255, 255, 255, 20))
-        glass_gradient.setColorAt(0.7, QColor(0, 0, 0, 15))
-        glass_gradient.setColorAt(1, QColor(0, 0, 0, 40))
+        glass_gradient.setColorAt(0, QColor(200, 255, 220, 35))  # Light green highlight
+        glass_gradient.setColorAt(0.5, QColor(180, 255, 200, 12))  # Subtle green
+        glass_gradient.setColorAt(1, QColor(40, 80, 60, 18))  # Dark green shadow
         painter.fillPath(path, glass_gradient)
-        
+
+
     def _paint_radial_highlight(self, painter, path):
-        """Paint the radial glossy highlight."""
+        """Paint subtle specular highlight - iOS material style."""
         if not self.expanded:
             center_x = self.width() // 2
             center_y = self.height() // 3
         else:
             center_x = self.width() // 2
-            center_y = 40
-            
-        radial = QRadialGradient(center_x, center_y, self.width() * 0.6)
-        radial.setColorAt(0, QColor(255, 255, 255, 80))
-        radial.setColorAt(0.4, QColor(255, 255, 255, 30))
+            center_y = 30
+        
+        # More subtle, refined highlight
+        radial = QRadialGradient(center_x, center_y, self.width() * 0.5)
+        radial.setColorAt(0, QColor(255, 255, 255, 40))
+        radial.setColorAt(0.3, QColor(255, 255, 255, 15))
+        radial.setColorAt(0.7, QColor(255, 255, 255, 5))
         radial.setColorAt(1, QColor(255, 255, 255, 0))
         painter.fillPath(path, radial)
-        
+
     def _paint_borders(self, painter, path):
-        """Paint outer and inner borders."""
-        # Outer border
+        """Paint refined borders - iOS style."""
+        # Outer border - subtle and thin
         pen = QPen()
-        pen.setWidth(2)
-        border_gradient = QLinearGradient(0, 0, 0, self.height())
-        border_gradient.setColorAt(0, QColor(144, 238, 144, 200))
-        border_gradient.setColorAt(0.5, QColor(46, 204, 113, 180))
-        border_gradient.setColorAt(1, QColor(144, 238, 144, 160))
-        pen.setBrush(border_gradient)
+        pen.setWidth(1)
+        pen.setColor(QColor(255, 255, 255, 35))
         painter.setPen(pen)
         painter.drawPath(path)
         
-        # Inner highlight border
+        # Inner highlight border - very subtle
         inner_path = QPainterPath()
         if self.expanded:
-            inner_path.addRoundedRect(7, 7, self.width()-14, self.height()-14, 23, 23)
+            inner_path.addRoundedRect(6, 6, self.width()-12, self.height()-12, 24, 24)
         else:
-            inner_path.addEllipse(7, 7, self.width()-14, self.height()-14)
-            
+            inner_path.addEllipse(6, 6, self.width()-12, self.height()-12)
+        
         inner_pen = QPen()
         inner_pen.setWidth(1)
-        inner_pen.setColor(QColor(200, 255, 200, 100))
+        inner_pen.setColor(QColor(255, 255, 255, 22))
         painter.setPen(inner_pen)
         painter.drawPath(inner_path)
-        
+
     def _paint_bottom_reflection(self, painter):
-        """Paint bottom reflection line for depth."""
-        bottom_line_gradient = QLinearGradient(0, self.height()-20, 0, self.height()-5)
+        """Paint bottom reflection - minimal iOS style."""
+        bottom_line_gradient = QLinearGradient(0, self.height()-30, 0, self.height()-10)
         bottom_line_gradient.setColorAt(0, QColor(255, 255, 255, 0))
-        bottom_line_gradient.setColorAt(0.5, QColor(255, 255, 255, 25))
+        bottom_line_gradient.setColorAt(0.5, QColor(255, 255, 255, 12))
         bottom_line_gradient.setColorAt(1, QColor(255, 255, 255, 0))
         
         shine_path = QPainterPath()
-        shine_path.addRoundedRect(15, self.height()-25, self.width()-30, 15, 8, 8)
+        shine_path.addRoundedRect(20, self.height()-28, self.width()-40, 10, 5, 5)
         painter.fillPath(shine_path, bottom_line_gradient)
+
+    def _setup_effects(self):
+        """Setup visual effects - iOS-style softer shadow."""
+        shadow = QGraphicsDropShadowEffect()
+        shadow.setBlurRadius(50)
+        shadow.setColor(QColor(0, 0, 0, 40))
+        shadow.setOffset(0, 3)
+        self.setGraphicsEffect(shadow)
 
     def mousePressEvent(self, event):
         """Handle mouse press for dragging."""

@@ -1,6 +1,7 @@
 """
 Stylesheet definitions for the Glass Task Manager application.
 Centralizes all QSS styling for easier maintenance and customization.
+iOS-style glassmorphism with refined blur and transparency.
 """
 
 class Styles:
@@ -9,92 +10,93 @@ class Styles:
     # Task Item Stylesheet
     TASK_ITEM = """
         #taskItem {
-            border-radius: none;
-            border-left: none;
-            border-right: none;
-            border-top: none;
-            border-bottom: 2px solid rgba(122, 200, 122, 0.3);
-            background-color: transparent;
-            padding: 5px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background-color: rgba(255, 255, 255, 0.08);
+            padding: 8px;
+            margin: 2px;
         }
     """
     
-    # Task Item Hover Stylesheet - Glassy Effect
+    # Task Item Hover Stylesheet - iOS Glassy Effect
     TASK_ITEM_HOVER = """
         #taskItem {
-            border-radius: none;
-            border-left: none;
-            border-right: none;
-            border-top: none;
-            border-bottom: 2px solid rgba(144, 238, 144, 0.8);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
             background-color: rgba(255, 255, 255, 0.15);
-            padding: 5px;
+            padding: 8px;
+            margin: 2px;
         }
     """
     
     # Checkbox Stylesheet
     CHECKBOX = """
         QCheckBox {
-            color: #ffffff;
+            color: rgba(255, 255, 255, 0.95);
             background-color: transparent;
             spacing: 8px;
+            font-size: 13px;
         }
+        
         QCheckBox::indicator {
-            width: 18px;
-            height: 18px;
-            border-radius: 4px;
-            background-color: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(144, 238, 144, 0.8);
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.12);
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
         }
+        
         QCheckBox::indicator:checked {
-            background-color: rgba(46, 204, 113, 0.9);
-            border: 2px solid rgba(46, 204, 113, 1);
+            background-color: rgba(52, 199, 89, 0.85);
+            border: 1.5px solid rgba(52, 199, 89, 1);
         }
     """
     
     # Checkbox Hover Stylesheet - Enhanced visibility
     CHECKBOX_HOVER = """
         QCheckBox {
-            color: #ffffff;
+            color: rgba(255, 255, 255, 0.95);
             background-color: transparent;
             spacing: 8px;
+            font-size: 13px;
         }
+        
         QCheckBox::indicator {
-            width: 18px;
-            height: 18px;
-            border-radius: 4px;
-            background-color: rgba(255, 255, 255, 0.3);
-            border: 2px solid rgba(144, 238, 144, 1);
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.18);
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
         }
+        
         QCheckBox::indicator:checked {
-            background-color: rgba(46, 204, 113, 1);
-            border: 2px solid rgba(46, 204, 113, 1);
+            background-color: rgba(52, 199, 89, 1);
+            border: 1.5px solid rgba(52, 199, 89, 1);
         }
-        QCheckBox::indicator:hover {
-            background-color: rgba(255, 255, 255, 0.4);
-            border: 2px solid rgba(200, 255, 200, 1);
-        }
+        
     """
     
     # Delete Button Stylesheet
     DELETE_BUTTON = """
         QPushButton {
             background-color: transparent;
-            color: rgba(200, 200, 200, 0.5);
+            color: rgba(255, 255, 255, 0.4);
             border: none;
-            font-weight: bold;
-            font-size: 20px;
-            min-width: 24px;
-            max-width: 24px;
-            min-height: 24px;
-            max-height: 24px;
+            font-weight: normal;
+            font-size: 18px;
+            min-width: 26px;
+            max-width: 26px;
+            min-height: 26px;
+            max-height: 26px;
             padding: 0px;
             margin: 0px;
+            border-radius: 13px;
         }
+        
         QPushButton:hover {
-            background-color: rgba(255, 100, 100, 0.3);
-            color: rgba(255, 255, 255, 1);
-            border-radius: 12px;
+            background-color: none;
+            color: rgba(255, 255, 255, 0.95);
+            border-radius: 13px;
         }
     """
     
@@ -110,20 +112,15 @@ class Styles:
     # Title Label Stylesheet
     TITLE_LABEL = """
         QLabel {
-            color: #ffffff;
-            font-size: 19px;
-            font-weight: bold;
-            padding: 1px;
-            padding-bottom: 5px;
-            padding-top: 5px;
-            padding-left: 10px;
-            background-color: none;
-            border-left: none;
-            border-right: none;
-            border-top: none;
-            border-bottom: 2px solid rgba(144, 238, 144, 0.4);
-            border-radius: none;
-            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 20px;
+            font-weight: 600;
+            padding: 8px;
+            padding-bottom: 12px;
+            padding-left: 12px;
+            background-color: transparent;
+            border: none;
+            margin-bottom: 4px;
         }
     """
     
@@ -133,82 +130,83 @@ class Styles:
             border: none;
             background-color: transparent;
         }
+        
         QScrollBar:vertical {
             border: none;
-            background: rgba(255, 255, 255, 0.08);
-            width: 10px;
-            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            width: 8px;
+            border-radius: 4px;
             margin: 2px;
         }
+        
         QScrollBar::handle:vertical {
-            background: rgba(46, 204, 113, 0.5);
-            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 4px;
             min-height: 20px;
         }
+        
         QScrollBar::handle:vertical:hover {
-            background: rgba(46, 204, 113, 0.7);
+            background: rgba(255, 255, 255, 0.35);
+        }
+        
+        QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+            height: 0px;
         }
     """
     
     # Input Container Stylesheet
     INPUT_CONTAINER = """
         QWidget {
-
-            border-radius: none;
-            border-left: none;
-            border-right: none;
-            border-bottom: none;
-            border-top: 3px solid rgba(46, 204, 113, 0.4);
-
-
+            background-color: transparent;
+            border: none;
+            padding-top: 8px;
         }
     """
     
     # Task Input Field Stylesheet
     TASK_INPUT = """
         QLineEdit {
-            background-color: rgba(255, 255, 255, 0.15);
-            border: 2px solid rgba(46, 204, 113, 0.4);
-            border-radius: none;
-            border-left: none;
-            border-right: none;
-            border-top: none;
-            border-bottom: 2px solid rgba(144, 238, 144, 0.5);
-            padding: 5px;
-            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 10px;
+            padding: 8px 12px;
+            color: rgba(255, 255, 255, 0.95);
             font-size: 13px;
-            outline: none;
+            selection-background-color: rgba(52, 199, 89, 0.4);
         }
+        
         QLineEdit:focus {
-            border: 2px solid rgba(46, 204, 113, 0.8);
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: none;
-            border-left: none;
-            border-right: none;
-            border-top: none;
-            border-bottom: 2px solid rgba(144, 238, 144, 0.5);
-            outline: none;
+            border: 1px solid rgba(52, 199, 89, 0.6);
+            background-color: rgba(255, 255, 255, 0.18);
         }
     """
     
-    # Add Button Stylesheet
+
     ADD_BUTTON = """
         QPushButton {
-            background-color: none;
+            background-color: rgba(52, 199, 89, 0.9);
             color: white;
             border: none;
-            border-radius: none;
+            border-radius: 18px;
             font-size: 24px;
-            min-width: 20px;
-            max-width: 20px;
-            min-height: 20px;
-            max-height: 20px;
+            font-weight: 400;
+            min-width: 36px;
+            max-width: 36px;
+            min-height: 36px;
+            max-height: 36px;
+            padding: 0px;
+            margin: 0px;
         }
+        
         QPushButton:hover {
-            background-color: rgba(39, 174, 96, 0.9);
-            border-radius: 10px;
+            background-color: rgba(52, 199, 89, 1);
+        }
+        
+        QPushButton:pressed {
+            background-color: rgba(40, 180, 70, 1);s
         }
     """
+
     
     # Transparent Background
     TRANSPARENT = "background-color: transparent;"

@@ -1,18 +1,10 @@
 [
   {
-    "text": "load humanoid model",
-    "checked": false
-  },
-  {
     "text": "get joint names",
-    "checked": false
+    "checked": true
   },
   {
     "text": "download a data file amc asf",
-    "checked": false
-  },
-  {
-    "text": "visualise it",
-    "checked": false
+    "checked": true
   }
 ]

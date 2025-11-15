@@ -1,7 +1,7 @@
 # The Task-inator 3000
 
 A minimalistic, always-on-top task manager with a sleek glass morphism design.
-![preview](preview.png)
+![preview](preview.gif)
 
 ## Features
 - Glass morphism UI with emerald accents
