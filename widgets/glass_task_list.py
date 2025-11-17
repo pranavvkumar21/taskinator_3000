@@ -72,7 +72,7 @@ class GlassTaskList(QWidget):
         label.setAlignment(Qt.AlignCenter)
         
         # Load image icon
-        pixmap = QPixmap("icon.png")  # Replace with your image path
+        pixmap = QPixmap("icon.ico")  # Replace with your image path
         
         # Scale the image to fit the collapsed size (with some padding)
         scaled_pixmap = pixmap.scaled(
