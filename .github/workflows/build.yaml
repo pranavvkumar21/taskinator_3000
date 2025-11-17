@@ -30,7 +30,12 @@ jobs:
 
     - name: Build executable
       run: |
-        pyinstaller --onefile --add-data "icon.png;." --icon=icon.ico main.py
+        if [[ $RUNNER_OS == 'Windows' ]]; then
+          pyinstaller --onefile --name=taskinator3000 --add-data "icon.png;." --icon=icon.ico main.py
+        else
+          pyinstaller --onefile --name=taskinator3000 --add-data "icon.png:." --icon=icon.ico main.py
+        fi
+      shell: bash
 
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
