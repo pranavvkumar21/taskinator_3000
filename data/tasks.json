@@ -1,10 +1,10 @@
 [
   {
-    "text": "get joint names",
-    "checked": true
+    "text": "create github actions workflow",
+    "checked": false
   },
   {
-    "text": "download a data file amc asf",
-    "checked": true
+    "text": "ceate tag",
+    "checked": false
   }
 ]
