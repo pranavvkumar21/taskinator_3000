@@ -184,7 +184,7 @@ class GlassTaskList(QWidget):
         
         for task_item in self.task_items:
             task_data = {
-                "text": task_item.checkbox.text(),
+                "text": task_item.label.text(),
                 "checked": task_item.checkbox.isChecked()
             }
             tasks_data.append(task_data)

@@ -2,7 +2,7 @@
 TaskItem widget - Represents a single task in the task list.
 """
 
-from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QPushButton,
+from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QPushButton, QLabel,
                              QCheckBox, QGraphicsDropShadowEffect, QSizePolicy)
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QColor, QPainter, QPainterPath, QLinearGradient, QPen
@@ -52,17 +52,22 @@ class TaskItem(QWidget):
         layout.setContentsMargins(1, 1, 1, 1)
         
         # Checkbox
-        self.checkbox = QCheckBox(text)
+        self.checkbox = QCheckBox()
         self.checkbox.setFocusPolicy(Qt.NoFocus)  # Prevent focus highlight
         
         # Connect checkbox state change to emit signal
         self.checkbox.stateChanged.connect(self.state_changed.emit)
+
+        self.label = QLabel(text)
+        self.label.setWordWrap(True)
+        self.label.setAlignment(Qt.AlignVCenter | Qt.AlignLeft)
         
         # Delete button
         self.delete_btn = self._create_delete_button()
         
         # Add widgets to layout
         layout.addWidget(self.checkbox)
+        layout.addWidget(self.label,stretch=1)
         layout.addStretch()  # Push delete button to the right
         layout.addWidget(self.delete_btn)
     
@@ -123,7 +128,7 @@ class TaskItem(QWidget):
     
     def get_text(self):
         """Get the task text."""
-        return self.checkbox.text()
+        return self.label.text()
     
     def is_completed(self):
         """Check if task is completed."""

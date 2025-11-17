@@ -75,7 +75,15 @@ class Styles:
         }
         
     """
-    
+    ITEM_LABEL = """
+        QLabel {
+            color: rgba(255, 255, 255, 0.95);
+            background-color: transparent;
+            font-size: 13px;
+            spacing: 8px;
+        }
+    """
+
     # Delete Button Stylesheet
     DELETE_BUTTON = """
         QPushButton {
@@ -214,9 +222,9 @@ class Styles:
     @classmethod
     def get_combined_task_item(cls):
         """Returns combined stylesheet for task item (normal state)."""
-        return cls.TASK_ITEM + cls.CHECKBOX
+        return cls.TASK_ITEM + cls.CHECKBOX + cls.ITEM_LABEL
     
     @classmethod
     def get_combined_task_item_hover(cls):
         """Returns combined stylesheet for task item (hover state)."""
-        return cls.TASK_ITEM_HOVER + cls.CHECKBOX_HOVER
+        return cls.TASK_ITEM_HOVER + cls.CHECKBOX_HOVER + cls.ITEM_LABEL
