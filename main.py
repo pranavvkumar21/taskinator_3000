@@ -8,6 +8,9 @@ Features expandable/collapsible interface with smooth animations.
 import sys
 from PyQt5.QtWidgets import QApplication
 from widgets import GlassTaskList
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parent))
 
 
 def main():

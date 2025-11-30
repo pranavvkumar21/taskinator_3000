@@ -16,6 +16,9 @@ import json
 import os
 from pathlib import Path
 
+ROOT_DIR = Path(__file__).parent.parent
+icon_path = ROOT_DIR / "icon.png"
+
 
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -72,7 +75,7 @@ class GlassTaskList(QWidget):
         label.setAlignment(Qt.AlignCenter)
         
         # Load image icon
-        pixmap = QPixmap("icon.png")  # Replace with your image path
+        pixmap = QPixmap(str(icon_path))  # Replace with your image path
         
         # Scale the image to fit the collapsed size (with some padding)
         scaled_pixmap = pixmap.scaled(

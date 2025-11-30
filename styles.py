@@ -4,6 +4,8 @@ Centralizes all QSS styling for easier maintenance and customization.
 iOS-style glassmorphism with refined blur and transparency.
 """
 
+
+
 class Styles:
     """Container for all application stylesheets."""
     
