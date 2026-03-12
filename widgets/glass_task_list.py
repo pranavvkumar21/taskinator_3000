@@ -6,8 +6,8 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout,
                              QPushButton, QLineEdit, QScrollArea, QLabel,
                              QGraphicsDropShadowEffect)
 from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QPoint, QSize
-from PyQt5.QtGui import (QPainter, QColor, QPainterPath, QLinearGradient, 
-                         QRadialGradient, QPen)
+from PyQt5.QtGui import (QPainter, QColor, QPainterPath, QLinearGradient,
+                         QRadialGradient, QPen, QBrush)
 from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QPoint, QSize, QParallelAnimationGroup
 from PyQt5.QtGui import QPixmap
 
@@ -100,11 +100,22 @@ class GlassTaskList(QWidget):
         list_layout.setContentsMargins(0, 0, 0, 0)
         list_layout.setSpacing(8)
         
-        # Title
+        # Title row with close button
+        title_row = QWidget()
+        title_row.setStyleSheet("background: transparent;")
+        title_row_layout = QHBoxLayout(title_row)
+        title_row_layout.setContentsMargins(0, 0, 4, 0)
+
         title = QLabel("My Tasks")
         title.setStyleSheet(Styles.TITLE_LABEL)
-        title.setAlignment(Qt.AlignCenter)
-        list_layout.addWidget(title)
+        title_row_layout.addWidget(title)
+
+        close_btn = QPushButton("✕")
+        close_btn.setStyleSheet(Styles.CLOSE_BUTTON)
+        close_btn.clicked.connect(QApplication.quit)
+        title_row_layout.addWidget(close_btn)
+
+        list_layout.addWidget(title_row)
         
         # Scroll area
         scroll = self._create_scroll_area()
@@ -261,112 +272,46 @@ class GlassTaskList(QWidget):
 
         
     def paintEvent(self, event):
-        """
-        Custom paint event for glass morphism effect.
-        Creates multi-layer 3D glass appearance.
-        """
+        """Custom paint for neumorphic effect."""
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
-        
-        # Create path
+
         path = QPainterPath()
         if self.animation_progress < 0.2:
-            # Draw circle when mostly collapsed
-            path.addEllipse(5, 5, self.width()-10, self.height()-10)
+            path.addEllipse(8, 8, self.width() - 16, self.height() - 16)
         else:
-            # Draw rounded rectangle when expanding/expanded
-            path.addRoundedRect(5, 5, self.width()-10, self.height()-10, 25, 25)
+            path.addRoundedRect(8, 8, self.width() - 16, self.height() - 16, 20, 20)
 
-            
-        # Layer 1: Base dark layer for depth
-        self._paint_base_layer(painter, path)
-        
-        # Layer 2: Glass gradient overlay
-        self._paint_glass_layer(painter, path)
-        
-        # Layer 3: Radial highlight
-        self._paint_radial_highlight(painter, path)
-        
-        # Borders
-        self._paint_borders(painter, path)
-        
-        # Bottom reflection
-        if self.expanded:
-            self._paint_bottom_reflection(painter)
-            
-    def _paint_base_layer(self, painter, path):
-        """Paint the base layer with green-tinted iOS-style background."""
-        base_gradient = QLinearGradient(0, 0, 0, self.height())
-        base_gradient.setColorAt(0, QColor(50, 75, 65, 200))  # Dark green-gray
-        base_gradient.setColorAt(0.5, QColor(60, 85, 72, 210))  # Mid green-gray
-        base_gradient.setColorAt(1, QColor(48, 70, 62, 200))  # Bottom green-gray
-        painter.fillPath(path, base_gradient)
+        # Fill with neumorphic base color
+        painter.fillPath(path, QColor("#f0f0f0"))
 
-    def _paint_glass_layer(self, painter, path):
-        """Paint frosted glass with green tint."""
-        glass_gradient = QLinearGradient(0, 0, 0, self.height())
-        glass_gradient.setColorAt(0, QColor(200, 255, 220, 35))  # Light green highlight
-        glass_gradient.setColorAt(0.5, QColor(180, 255, 200, 12))  # Subtle green
-        glass_gradient.setColorAt(1, QColor(40, 80, 60, 18))  # Dark green shadow
-        painter.fillPath(path, glass_gradient)
+        # Neumorphic border gradient
+        self._paint_neumorphic_border(painter, path)
 
-
-    def _paint_radial_highlight(self, painter, path):
-        """Paint subtle specular highlight - iOS material style."""
-        if not self.expanded:
-            center_x = self.width() // 2
-            center_y = self.height() // 3
+    def _paint_neumorphic_border(self, painter, path):
+        """Paint neumorphic border: inset when collapsed, raised when expanding/expanded."""
+        w, h = self.width(), self.height()
+        if self.animation_progress < 0.15:
+            # Inset (collapsed): dark top-left, light bottom-right
+            grad = QLinearGradient(0, 0, w, h)
+            grad.setColorAt(0, QColor("#bbbbbb"))
+            grad.setColorAt(1, QColor("#fafafa"))
         else:
-            center_x = self.width() // 2
-            center_y = 30
-        
-        # More subtle, refined highlight
-        radial = QRadialGradient(center_x, center_y, self.width() * 0.5)
-        radial.setColorAt(0, QColor(255, 255, 255, 40))
-        radial.setColorAt(0.3, QColor(255, 255, 255, 15))
-        radial.setColorAt(0.7, QColor(255, 255, 255, 5))
-        radial.setColorAt(1, QColor(255, 255, 255, 0))
-        painter.fillPath(path, radial)
+            # Raised (expanding/expanded): light top-left, dark bottom-right
+            grad = QLinearGradient(0, 0, w, h)
+            grad.setColorAt(0, QColor("#ffffff"))
+            grad.setColorAt(1, QColor("#cacaca"))
 
-    def _paint_borders(self, painter, path):
-        """Paint refined borders - iOS style."""
-        # Outer border - subtle and thin
-        pen = QPen()
-        pen.setWidth(1)
-        pen.setColor(QColor(255, 255, 255, 35))
+        pen = QPen(QBrush(grad), 2)
         painter.setPen(pen)
         painter.drawPath(path)
-        
-        # Inner highlight border - very subtle
-        inner_path = QPainterPath()
-        if self.expanded:
-            inner_path.addRoundedRect(6, 6, self.width()-12, self.height()-12, 24, 24)
-        else:
-            inner_path.addEllipse(6, 6, self.width()-12, self.height()-12)
-        
-        inner_pen = QPen()
-        inner_pen.setWidth(1)
-        inner_pen.setColor(QColor(255, 255, 255, 22))
-        painter.setPen(inner_pen)
-        painter.drawPath(inner_path)
-
-    def _paint_bottom_reflection(self, painter):
-        """Paint bottom reflection - minimal iOS style."""
-        bottom_line_gradient = QLinearGradient(0, self.height()-30, 0, self.height()-10)
-        bottom_line_gradient.setColorAt(0, QColor(255, 255, 255, 0))
-        bottom_line_gradient.setColorAt(0.5, QColor(255, 255, 255, 12))
-        bottom_line_gradient.setColorAt(1, QColor(255, 255, 255, 0))
-        
-        shine_path = QPainterPath()
-        shine_path.addRoundedRect(20, self.height()-28, self.width()-40, 10, 5, 5)
-        painter.fillPath(shine_path, bottom_line_gradient)
 
     def _setup_effects(self):
-        """Setup visual effects - iOS-style softer shadow."""
+        """Setup neumorphic drop shadow."""
         shadow = QGraphicsDropShadowEffect()
-        shadow.setBlurRadius(50)
-        shadow.setColor(QColor(0, 0, 0, 40))
-        shadow.setOffset(0, 3)
+        shadow.setBlurRadius(20)
+        shadow.setColor(QColor(180, 180, 180, 130))
+        shadow.setOffset(6, 6)
         self.setGraphicsEffect(shadow)
 
     def mousePressEvent(self, event):
